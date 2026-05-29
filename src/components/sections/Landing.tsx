@@ -21,8 +21,10 @@ function GithubLogo({ className }: { className?: string }) {
 }
 
 const navLinks = [
+  // FIXME: point Timeline / Projects at real routes or sections
+  { label: "Partnerships", href: "/partnerships" },
   { label: "Resume", href: "/resume" },
-  // FIXME: point these at real sections/routes when they exist
+  { label: "Timeline", href: "#" },
   { label: "Projects", href: "#" },
   { label: "Contact", href: `mailto:${siteConfig.email}` },
 ];
@@ -36,7 +38,7 @@ export function Landing() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-black text-white">
       {/* Growing dendrite web background */}
-      <GrowingWeb className="pointer-events-none absolute inset-0 h-full w-full" />
+      <GrowingWeb waitForEnter className="pointer-events-none absolute inset-0 h-full w-full" />
       <div className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.3] mix-blend-overlay" />
 
       {/* Top bar */}
@@ -102,13 +104,13 @@ export function Landing() {
         </div>
 
         {/* Portrait */}
-        <div className="relative aspect-[3/4] w-full max-w-[280px] shrink-0 self-center overflow-hidden rounded-2xl border border-white/10 md:max-w-[360px]">
+        <div className="relative aspect-[3/4] w-full max-w-[280px] shrink-0 self-center overflow-hidden rounded-2xl border border-white/10 md:max-w-[360px] md:-translate-x-18 md:-translate-y-4">
           <Image
-            src="/images/image.jpg"
+            src="/images/portrait-talon.jpg"
             alt={siteConfig.name}
             fill
-            className="object-cover scale-[3.2]"
-            style={{ objectPosition: "72% 26%", transformOrigin: "58% 32%" }}
+            className="object-cover scale-[1.7]"
+            style={{ objectPosition: "50% 54%", transformOrigin: "50% 54%" }}
             sizes="(min-width: 768px) 900px, 700px"
             quality={100}
             priority

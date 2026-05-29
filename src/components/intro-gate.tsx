@@ -2,23 +2,31 @@
 
 import { useEffect, useState } from "react";
 import { SpiralAnimation } from "@/components/ui/spiral-animation";
+import { hasEntered, markEntered } from "@/lib/gate";
 
 // Fullscreen spiral "Enter" gate. Renders over the page, then fades away and
-// unmounts (stopping the animation) once the visitor clicks Enter.
+// unmounts (stopping the animation) once the visitor clicks Enter. The shared
+// gate state (lib/gate) skips it on in-session navigation and lets the home web
+// hold its growth until the gate is dismissed.
 export function IntroGate({ children }: { children: React.ReactNode }) {
-  const [entered, setEntered] = useState(false);
-  const [gone, setGone] = useState(false);
+  const [entered, setEntered] = useState(() => hasEntered());
+  const [gone, setGone] = useState(() => hasEntered());
   const [startVisible, setStartVisible] = useState(false);
 
   useEffect(() => {
+    if (gone) return;
     const t = setTimeout(() => setStartVisible(true), 1800);
     return () => clearTimeout(t);
-  }, []);
+  }, [gone]);
 
   const handleEnter = () => {
     setEntered(true);
-    // Unmount the canvas after the fade completes so it stops rendering.
-    setTimeout(() => setGone(true), 1100);
+    // Unmount the canvas after the fade completes, and only then let the web
+    // start growing — so the growth is seen, not hidden behind the spiral.
+    setTimeout(() => {
+      setGone(true);
+      markEntered();
+    }, 1100);
   };
 
   return (

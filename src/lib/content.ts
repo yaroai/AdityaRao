@@ -204,6 +204,20 @@ export const contact = {
   ],
 };
 
+export const partnerships = {
+  title: "Working with brands.",
+  subtitle: "Rates per Reel, depending on length and format.",
+  rows: [
+    { format: "Reel under 25 seconds", rate: "$300" },
+    { format: "Reel 30 to 60 seconds", rate: "$600" },
+    { format: "Reel over 60 seconds", rate: "$1,000" },
+    { format: "Multiple videos", rate: "Contact" },
+  ],
+  note: "Rates are starting points. Final price depends on usage rights, exclusivity, and turnaround. Email me to talk.",
+  ctaLabel: "Inquire about a partnership",
+  ctaUrl: `mailto:${siteConfig.email}?subject=Brand%20Partnership%20Inquiry`,
+};
+
 export const footer = {
   text: "Aditya Rao · Atlanta, GA · 2026",
 };

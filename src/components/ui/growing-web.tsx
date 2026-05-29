@@ -1,11 +1,21 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { hasEntered, onEntered } from "@/lib/gate";
 
 // Generative dendrite background: thin branches creep in from the edges, sprout
 // child branches off one another, and slowly accumulate to fill the page.
 // The canvas is never cleared during animation, so growth persists over time.
-export function GrowingWeb({ className }: { className?: string }) {
+export function GrowingWeb({
+  className,
+  durationMs = 10000,
+  waitForEnter = false,
+}: {
+  className?: string;
+  durationMs?: number;
+  // When true, hold off growing until the spiral Enter gate is dismissed.
+  waitForEnter?: boolean;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -28,7 +38,7 @@ export function GrowingWeb({ className }: { className?: string }) {
     };
 
     const branches: Branch[] = [];
-    const MAX = 520;
+    const MAX = 460;
     let width = 0;
     let height = 0;
     let frame = 0;
@@ -42,7 +52,7 @@ export function GrowingWeb({ className }: { className?: string }) {
       life: number
     ) => {
       if (branches.length >= MAX) return;
-      branches.push({ x, y, angle, width: w, life, speed: 0.55 + Math.random() * 0.9 });
+      branches.push({ x, y, angle, width: w, life, speed: 1.05 + Math.random() * 1.3 });
     };
 
     const seedEdges = (count: number) => {
@@ -84,7 +94,7 @@ export function GrowingWeb({ className }: { className?: string }) {
         const nx = b.x + Math.cos(b.angle) * b.speed;
         const ny = b.y + Math.sin(b.angle) * b.speed;
 
-        ctx.strokeStyle = `rgba(165, 172, 196, ${0.035 + b.width * 0.03})`;
+        ctx.strokeStyle = `rgba(185, 192, 215, ${0.08 + b.width * 0.06})`;
         ctx.lineWidth = b.width;
         ctx.beginPath();
         ctx.moveTo(b.x, b.y);
@@ -98,7 +108,7 @@ export function GrowingWeb({ className }: { className?: string }) {
         b.width *= 0.9975;
 
         // Sprout a child branch off this one.
-        if (Math.random() < 0.02 && b.width > 0.32) {
+        if (Math.random() < 0.015 && b.width > 0.32) {
           spawn(
             b.x,
             b.y,
@@ -137,7 +147,7 @@ export function GrowingWeb({ className }: { className?: string }) {
     };
 
     // Grow for this long, then freeze the finished web in place.
-    const DURATION_MS = 20000;
+    const DURATION_MS = durationMs;
     let start = 0;
 
     const loop = () => {
@@ -160,20 +170,29 @@ export function GrowingWeb({ className }: { className?: string }) {
     };
 
     resize();
-    begin();
 
-    // Re-grow for another DURATION_MS after a resize (which clears the canvas).
+    // On the home page, defer growth until the visitor passes the Enter gate.
+    let offEntered: () => void = () => {};
+    if (waitForEnter) {
+      offEntered = onEntered(begin);
+    } else {
+      begin();
+    }
+
+    // Re-grow for another DURATION_MS after a resize (which clears the canvas),
+    // but only if growth has been allowed to start.
     const onResize = () => {
       resize();
-      begin();
+      if (!waitForEnter || hasEntered()) begin();
     };
 
     window.addEventListener("resize", onResize);
     return () => {
+      offEntered();
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
     };
-  }, []);
+  }, [durationMs, waitForEnter]);
 
   return <canvas ref={canvasRef} className={className} />;
 }
