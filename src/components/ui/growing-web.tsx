@@ -38,7 +38,7 @@ export function GrowingWeb({
     };
 
     const branches: Branch[] = [];
-    const MAX = 460;
+    const MAX = 320;
     let width = 0;
     let height = 0;
     let frame = 0;
@@ -86,7 +86,7 @@ export function GrowingWeb({
     const tick = () => {
       frame++;
       // Periodically introduce fresh edge seeds so the web keeps expanding.
-      if (frame % 80 === 0 && branches.length < MAX * 0.65) seedEdges(2);
+      if (frame % 100 === 0 && branches.length < MAX * 0.6) seedEdges(2);
 
       ctx.lineCap = "round";
       for (let i = branches.length - 1; i >= 0; i--) {
@@ -94,7 +94,7 @@ export function GrowingWeb({
         const nx = b.x + Math.cos(b.angle) * b.speed;
         const ny = b.y + Math.sin(b.angle) * b.speed;
 
-        ctx.strokeStyle = `rgba(185, 192, 215, ${0.08 + b.width * 0.06})`;
+        ctx.strokeStyle = `rgba(185, 192, 215, ${0.05 + b.width * 0.04})`;
         ctx.lineWidth = b.width;
         ctx.beginPath();
         ctx.moveTo(b.x, b.y);
@@ -108,7 +108,7 @@ export function GrowingWeb({
         b.width *= 0.9975;
 
         // Sprout a child branch off this one.
-        if (Math.random() < 0.015 && b.width > 0.32) {
+        if (Math.random() < 0.01 && b.width > 0.32) {
           spawn(
             b.x,
             b.y,

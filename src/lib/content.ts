@@ -11,16 +11,17 @@ export const siteConfig = {
     "Co-founder and technical operator at Yaro AI. Building Yaro, an AI-native CRM for real estate. Finance and ML at Georgia Tech.",
   // FIXME: confirm final domain (adityarao.com first choice)
   url: "https://adityarao.com",
-  // FIXME: confirm primary contact email
-  email: "yaroxpo.ai@gmail.com",
+  email: "aditya@yaro.ai",
+  phone: "(470) 531-5289",
+  phoneTel: "+14705315289",
   // FIXME: real Calendly URL
   calendlyUrl: "https://calendly.com/adityarao",
   // FIXME: confirm primary social handle (X or Instagram, whichever Aditya posts on most)
-  instagram: "https://instagram.com/adityarao",
-  instagramHandle: "@adityarao",
+  instagram: "https://instagram.com/adityarao.ai",
+  instagramHandle: "@adityarao.ai",
   linkedin: "https://linkedin.com/in/adityarao",
-  github: "https://github.com/adityarao",
-  x: "https://x.com/adityarao",
+  github: "https://github.com/yaroai",
+  x: "https://x.com/aditya6352",
   yaroWebsite: "https://www.yaro.ai",
 };
 
@@ -215,7 +216,29 @@ export const partnerships = {
   ],
   note: "Rates are starting points. Final price depends on usage rights, exclusivity, and turnaround. Email me to talk.",
   ctaLabel: "Inquire about a partnership",
-  ctaUrl: `mailto:${siteConfig.email}?subject=Brand%20Partnership%20Inquiry`,
+  ctaUrl: "/contact",
+};
+
+export const timeline = {
+  title: "Timeline.",
+  subtitle: "A few moments along the way.",
+  events: [
+    { date: "July 2006", title: "Born (Kentucky, USA)" },
+    { date: "July 2014", title: "Moved to Atlanta" },
+    { date: "April 2023", title: "First job", detail: "Lifeguard" },
+    { date: "December 2023", title: "Accepted into Georgia Tech" },
+    { date: "August 2024", title: "Started Georgia Tech" },
+    {
+      date: "August 2025",
+      title: "Started Yaro AI",
+      detail: "Consulting + custom software agency",
+    },
+    {
+      date: "May 2026",
+      title: "Started Yaro",
+      detail: "AI-native layer for real estate software",
+    },
+  ],
 };
 
 export const footer = {

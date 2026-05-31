@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Mail } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import { siteConfig } from "@/lib/content";
 import { GrowingWeb } from "@/components/ui/growing-web";
 
@@ -8,6 +8,25 @@ function XLogo({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
+function InstagramLogo({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
     </svg>
   );
 }
@@ -24,9 +43,9 @@ const navLinks = [
   // FIXME: point Timeline / Projects at real routes or sections
   { label: "Partnerships", href: "/partnerships" },
   { label: "Resume", href: "/resume" },
-  { label: "Timeline", href: "#" },
+  { label: "Timeline", href: "/timeline" },
   { label: "Projects", href: "#" },
-  { label: "Contact", href: `mailto:${siteConfig.email}` },
+  { label: "Contact", href: "/contact" },
 ];
 
 // Bold/white highlight for key terms inside the muted prose.
@@ -40,6 +59,14 @@ export function Landing() {
       {/* Growing dendrite web background */}
       <GrowingWeb waitForEnter className="pointer-events-none absolute inset-0 h-full w-full" />
       <div className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.3] mix-blend-overlay" />
+      {/* Vignette: darken the text region so branches don't read on top of the prose */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 55% 65% at 28% 50%, rgba(0,0,0,0.7), transparent 75%)",
+        }}
+      />
 
       {/* Top bar */}
       <header className="relative z-10 mx-auto flex max-w-[1400px] items-center justify-between px-6 py-6 md:px-12">
@@ -56,15 +83,18 @@ export function Landing() {
             </Link>
           ))}
           <div className="ml-1 flex items-center gap-3 text-white/55">
+            <a href={siteConfig.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="transition-colors hover:text-white">
+              <InstagramLogo className="h-[18px] w-[18px]" />
+            </a>
             <a href={siteConfig.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="transition-colors hover:text-white">
               <GithubLogo className="h-[18px] w-[18px]" />
             </a>
             <a href={siteConfig.x} target="_blank" rel="noopener noreferrer" aria-label="X" className="transition-colors hover:text-white">
               <XLogo className="h-[18px] w-[18px]" />
             </a>
-            <a href={`mailto:${siteConfig.email}`} aria-label="Email" className="transition-colors hover:text-white">
+            <Link href="/contact" aria-label="Email" className="transition-colors hover:text-white">
               <Mail className="h-[18px] w-[18px]" />
-            </a>
+            </Link>
           </div>
         </nav>
       </header>
@@ -76,30 +106,40 @@ export function Landing() {
 
           <div className="mt-10 space-y-6 text-lg leading-relaxed text-white/65 md:text-xl">
             <p>
-              Hey! I&apos;m Aditya, a <Hi>builder</Hi> and <Hi>technical founder</Hi>.
+              Hey, I&apos;m Aditya, a 19-year-old <Hi>content creator</Hi> and <Hi>startup founder</Hi>.
             </p>
 
             <p>
-              Studying <Hi>Finance &amp; CS</Hi> at <Hi>Georgia Tech</Hi>.
+              I am currently studying <Hi>finance</Hi> at <Hi>Georgia Tech</Hi>.
             </p>
 
             <p>
-              Co-founder &amp; COO at <Hi>Yaro</Hi> 🟣, building an AI-native CRM for
-              real estate.
-              <br />
-              Alongside, independent <Hi>ML &amp; NLP</Hi> work in sports markets and
-              finance.
+              I am also building my startup{" "}
+              <a
+                href={siteConfig.yaroWebsite}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white"
+              >
+                Yaro
+              </a>
+              .
             </p>
 
             <p>
-              Recently built <Hi>Polyedge</Hi> 📈, a Polymarket trading intelligence
-              dashboard, featured at <Hi>YHack Yale 2026</Hi>.
+              In my free time I enjoy playing 🎾 tennis and 🃏 poker.
             </p>
 
-            <p>
-              I love shipping products, ML research, and competitive 🎾 tennis, ♟️ chess
-              &amp; 🃏 poker.
-            </p>
+            <div>
+              <Link
+                href="/contact"
+                className="group inline-flex items-center gap-2 rounded-full py-2.5 pl-5 pr-4 text-sm font-medium text-black transition-all hover:gap-3"
+                style={{ backgroundColor: "#E1E0CC" }}
+              >
+                Contact me
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </div>
           </div>
         </div>
 
